@@ -20,7 +20,7 @@ public class UserInterface {
         Node listTreatments = new Node("View your treatment history", null, null);
         Node listVisits = new Node("List visits", null, null);
         Node changeDetails = new Node("Change your personal details", null, null);
-        Node patientMenu = new Node("Patient menu", Arrays.asList(new Node[]{listVisits, listTreatments, requestAppointment, setPrivacy, changeDetails}));
+        Node patientMenu = new Node("Patient menu", Arrays.asList(listVisits, listTreatments, requestAppointment, setPrivacy, changeDetails));
         Node patientLogin = new Node("Patient login", null, null, patientMenu);
 
         // dentist functionality
@@ -28,14 +28,13 @@ public class UserInterface {
         Node viewPastAppointments = new Node("View past appointments", null, null);
         Node addTreatment = new Node("Add treatment", null, null);
         Node viewPastTreatments = new Node("View past treatments", null, null);
-        Node doctorMenu = new Node("Dentist menu", Arrays.asList(new Node[]{viewFutureAppointments, viewPastAppointments, addTreatment, viewPastTreatments}));
+        Node doctorMenu = new Node("Dentist menu", Arrays.asList(viewFutureAppointments, viewPastAppointments, addTreatment, viewPastTreatments));
         Node doctorLogin = new Node("Dentist login", null, null, doctorMenu);
 
         //admin functionality
         //Node listTreatments = new Node("", null, null);
 
-        Node root = new Node("Patient Record System", Arrays.asList(new Node[]{patientMenu, doctorMenu}));
-        return root;
+        return new Node("Patient Record System", Arrays.asList(patientMenu, doctorMenu));
     }
 
     public void Start()
@@ -57,7 +56,8 @@ public class UserInterface {
                     break;
                 if(result)
                     currentNode = nextNode;
-                else {
+                else
+                {
                     System.out.println("Operation failed. Please try again.");
                     currentNode = currentNode.ParentNode;
                 }
