@@ -2,7 +2,8 @@ package uk.ac.ljmu.group9.PatientRecordSystem.UI;
 
 import java.util.List;
 
-public class Node {
+public class Node
+{
     // a UI node can either have an action or some child nodes associated with it.
     // When it has an action, that action is executed on selecting the node. Afterwards, the application proceeds to NextNode.
     // When it has child objects, the user is prompted to choose which child node they want to proceed to.

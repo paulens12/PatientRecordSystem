@@ -3,7 +3,8 @@ package uk.ac.ljmu.group9.PatientRecordSystem.UI;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class UserInterface {
+public class UserInterface
+{
     private Node rootNode;
     private Scanner scanner = new Scanner(System.in);
 
@@ -34,15 +35,27 @@ public class UserInterface {
         Node doctorLogin = new Node("Dentist login", dc, "Login", doctorMenu);
 
         //admin functionality
+        Node listDoctorAppointments = new Node("List a dentist's upcoming appointments", null, "ListDoctorAppointments");
+        Node listPatientVisits = new Node("List a patient's past visits", null, "ListPatientVisits");
+        Node listDoctorTreatments = new Node("List a dentist's treatments", null, "ListDoctorTreatments");
+        Node listPatientTreatments = new Node("List a patient's treatments", null, "ListPatientTreatments");
+        Node addDoctor = new Node("Add a new dentist", null, "AddDoctor");
+        Node addPatient = new Node("Add a new patient", null, "AddPatient");
+        Node remDoctor = new Node("Remove a dentist", null, "RemoveDoctor");
+        Node remPatient = new Node("Remove a patient", null, "RemovePatient");
+        Node setDoctor = new Node("Set the first choice dentist of a patient", null, "SetDoctor");
+        Node setWorkingDays = new Node("Set a dentist's working days", null, "SetWorkingDays");
+        Node adminMenu = new Node("Admin menu", Arrays.asList(listDoctorAppointments, listPatientVisits, listDoctorTreatments, listPatientTreatments, addDoctor, addPatient, remDoctor, remPatient, setDoctor, setWorkingDays));
+        Node adminLogin = new Node("Admin login", dc, "Login", adminMenu);
         //Node listTreatments = new Node("", null, null);
 
-        return new Node("Patient Record System", Arrays.asList(patientMenu, doctorMenu));
+        return new Node("Patient Record System", Arrays.asList(patientMenu, doctorMenu, adminMenu));
     }
 
     public void Start()
     {
         Node currentNode = rootNode;
-        Node nextNode = null;
+        Node nextNode;
         boolean result;
         while(true)
         {

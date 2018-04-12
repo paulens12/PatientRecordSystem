@@ -1,7 +1,9 @@
 package uk.ac.ljmu.group9.PatientRecordSystem.UI;
 
-public class DoctorController implements IActionController {
-    public boolean ExecuteAction(String action) {
+public class DoctorController implements IActionController
+{
+    public boolean ExecuteAction(String action)
+    {
         switch(action)
         {
             case "ViewFutureAppointments":
