@@ -13,23 +13,25 @@ public class UserInterface {
     }
 
     public static Node InitializeMenuStructure() {
+        PatientController pc = new PatientController();
+        DoctorController dc = new DoctorController();
 
         // patient functionality
-        Node setPrivacy = new Node("Set privacy setting", null, null);
-        Node requestAppointment = new Node("Request an appointment with your first choice dentist", null, null);
-        Node listTreatments = new Node("View your treatment history", null, null);
-        Node listVisits = new Node("List visits", null, null);
-        Node changeDetails = new Node("Change your personal details", null, null);
+        Node setPrivacy = new Node("Set privacy setting", pc, "SetPrivacy");
+        Node requestAppointment = new Node("Request an appointment with your first choice dentist", pc, "RequestAppointment");
+        Node listTreatments = new Node("View your treatment history", pc, "ListTreatments");
+        Node listVisits = new Node("List visits", pc, "ListVisits");
+        Node changeDetails = new Node("Change your personal details", pc, "ChangeDetails");
         Node patientMenu = new Node("Patient menu", Arrays.asList(listVisits, listTreatments, requestAppointment, setPrivacy, changeDetails));
-        Node patientLogin = new Node("Patient login", null, null, patientMenu);
+        Node patientLogin = new Node("Patient login", pc, "Login", patientMenu);
 
         // dentist functionality
-        Node viewFutureAppointments = new Node("View upcoming appointments", null, null);
-        Node viewPastAppointments = new Node("View past appointments", null, null);
-        Node addTreatment = new Node("Add treatment", null, null);
-        Node viewPastTreatments = new Node("View past treatments", null, null);
+        Node viewFutureAppointments = new Node("View upcoming appointments", dc, "ViewFutureAppointments");
+        Node viewPastAppointments = new Node("View past appointments", dc, "ViewPastAppointments");
+        Node addTreatment = new Node("Add treatment", dc, "AddTreatment");
+        Node viewPastTreatments = new Node("View past treatments", dc, "ViewPastTreatments");
         Node doctorMenu = new Node("Dentist menu", Arrays.asList(viewFutureAppointments, viewPastAppointments, addTreatment, viewPastTreatments));
-        Node doctorLogin = new Node("Dentist login", null, null, doctorMenu);
+        Node doctorLogin = new Node("Dentist login", dc, "Login", doctorMenu);
 
         //admin functionality
         //Node listTreatments = new Node("", null, null);
