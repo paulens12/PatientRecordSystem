@@ -7,9 +7,10 @@ public class StorageRoot implements java.io.Serializable
 {
     private HashMap<String, Credentials> userCredentials;
 
+
     public void AddCredentials(AccountType type, String username, String pass) throws NoSuchAlgorithmException
     {
-        this.userCredentials.put(type + "-" + username, new Credentials(username, pass));
+        this.userCredentials.put(type.GetText() + "-" + username, new Credentials(username, pass));
     }
 
 

@@ -52,6 +52,7 @@ public class UserInterface
         return new Node("Patient Record System", Arrays.asList(patientMenu, doctorMenu, adminMenu));
     }
 
+    // UI initialization
     public void Start()
     {
         Node currentNode = rootNode;
