@@ -1,5 +1,8 @@
 package uk.ac.ljmu.group9.PatientRecordSystem.UI;
 
+import uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController;
+import uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -7,15 +10,18 @@ public class UserInterface
 {
     private Node rootNode;
     private Scanner scanner = new Scanner(System.in);
+    private IStorageController storageController;
 
-    public UserInterface(Node rootNode)
+    public UserInterface()
     {
-        this.rootNode = rootNode;
+        this.storageController = new SecureStorageController();
+        this.rootNode = initializeMenuStructure();
+        //this.storageController = new SecureStorageController();
     }
 
-    public static Node InitializeMenuStructure() {
-        PatientController pc = new PatientController();
-        DoctorController dc = new DoctorController();
+    private Node initializeMenuStructure() {
+        PatientController pc = new PatientController(storageController, scanner);
+        DoctorController dc = new DoctorController(storageController, scanner);
 
         // patient functionality
         Node setPrivacy = new Node("Set privacy setting", pc, "SetPrivacy");
@@ -30,8 +36,9 @@ public class UserInterface
         Node viewFutureAppointments = new Node("View upcoming appointments", dc, "ViewFutureAppointments");
         Node viewPastAppointments = new Node("View past appointments", dc, "ViewPastAppointments");
         Node addTreatment = new Node("Add treatment", dc, "AddTreatment");
+        Node changeDetails1 = new Node("Change your personal details", dc, "ChangeDetails");
         Node viewPastTreatments = new Node("View past treatments", dc, "ViewPastTreatments");
-        Node doctorMenu = new Node("Dentist menu", Arrays.asList(viewFutureAppointments, viewPastAppointments, addTreatment, viewPastTreatments));
+        Node doctorMenu = new Node("Dentist menu", Arrays.asList(viewFutureAppointments, viewPastAppointments, addTreatment, viewPastTreatments, changeDetails1));
         Node doctorLogin = new Node("Dentist login", dc, "Login", doctorMenu);
 
         //admin functionality
@@ -49,7 +56,7 @@ public class UserInterface
         Node adminLogin = new Node("Admin login", dc, "Login", adminMenu);
         //Node listTreatments = new Node("", null, null);
 
-        return new Node("Patient Record System", Arrays.asList(patientMenu, doctorMenu, adminMenu));
+        return new Node("Patient Record System", Arrays.asList(patientLogin, doctorLogin, adminMenu));
     }
 
     // UI initialization
@@ -93,6 +100,7 @@ public class UserInterface
             System.out.println("0. Previous menu");
         System.out.println("Other - exit application");
         int selection = scanner.nextInt();
+        scanner.nextLine();
         if(selection == 0)
             return current.ParentNode;
         if(selection > 0 && selection <= current.ChildNodes.size())

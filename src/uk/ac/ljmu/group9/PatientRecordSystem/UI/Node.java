@@ -55,7 +55,11 @@ public class Node
         ChildNodes = children;
         this.nextNode = null;
         for(Node n : children)
+        {
             n.ParentNode = this;
+            if(n.nextNode != null)
+                n.nextNode.ParentNode = this;
+        }
     }
 
 }

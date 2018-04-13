@@ -7,8 +7,7 @@ public class Main
     public static void main(String[] args)
     {
 	    // write your code here
-        Node rootNode = UserInterface.InitializeMenuStructure();
-        UserInterface ui = new UserInterface(rootNode);
+        UserInterface ui = new UserInterface();
         ui.Start();
     }
 }
