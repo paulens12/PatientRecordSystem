@@ -3,11 +3,14 @@ package uk.ac.ljmu.group9.PatientRecordSystem.UI;
 import uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController;
 import uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserInterface
 {
+    public static DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private Node rootNode;
     private Scanner scanner = new Scanner(System.in);
     private IStorageController storageController;
@@ -81,12 +84,24 @@ public class UserInterface
                     currentNode = nextNode;
                 else
                 {
-                    System.out.println("Operation failed. Please try again.");
+                    System.out.println("Operation failed.");
                     currentNode = currentNode.ParentNode;
                 }
             }
             if(currentNode == null)
                 break;
+        }
+    }
+
+    public static int GetInt(Scanner s)
+    {
+        try
+        {
+            return s.nextInt();
+        }
+        catch(InputMismatchException e)
+        {
+            return Integer.MIN_VALUE;
         }
     }
 
@@ -99,7 +114,7 @@ public class UserInterface
         if(current != rootNode)
             System.out.println("0. Previous menu");
         System.out.println("Other - exit application");
-        int selection = scanner.nextInt();
+        int selection = GetInt(scanner);
         scanner.nextLine();
         if(selection == 0)
             return current.ParentNode;

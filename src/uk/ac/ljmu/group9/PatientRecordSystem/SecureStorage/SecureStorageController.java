@@ -78,13 +78,13 @@ public class SecureStorageController implements IStorageController
         }
     }
 
-    public boolean VerifyPassword(AccountType accType, String username, String password)
+    public boolean VerifyPassword(AccountType accType, String username, String password) throws IllegalArgumentException
     {
         String key = getUserKey(accType, username);
         return db.userCredentials.containsKey(key) && db.userCredentials.get(key).Verify(password);
     }
 
-    public void ChangePassword(AccountType accType, String username, String newPassword)
+    public void ChangePassword(AccountType accType, String username, String newPassword) throws IllegalArgumentException
     {
         String key = getUserKey(accType, username);
         if(!db.userCredentials.containsKey(key))
@@ -98,7 +98,7 @@ public class SecureStorageController implements IStorageController
         return matcher.matches();
     }
 
-    private List<UUID> getTreatmentIds(AccountType accType, String username)
+    private List<UUID> getTreatmentIds(AccountType accType, String username) throws IllegalArgumentException
     {
         switch(accType)
         {
@@ -114,7 +114,23 @@ public class SecureStorageController implements IStorageController
         return null;
     }
 
-    public ArrayList<Treatment> GetTreatments(AccountType accType, String username)
+    private List<UUID> getVisitIds(AccountType accType, String username) throws IllegalArgumentException
+    {
+        switch(accType)
+        {
+            case Patient:
+                if(!this.db.patients.containsKey(username))
+                    throw new IllegalArgumentException("username");
+                return this.db.patients.get(username).GetVisits();
+            case Doctor:
+                if(!this.db.doctors.containsKey(username))
+                    throw new IllegalArgumentException("username");
+                return this.db.doctors.get(username).GetVisits();
+        }
+        return null;
+    }
+
+    public ArrayList<Treatment> GetTreatments(AccountType accType, String username) throws IllegalArgumentException
     {
         List<UUID> ids = getTreatmentIds(accType, username);
         ArrayList<Treatment> result = new ArrayList<>();
@@ -124,9 +140,9 @@ public class SecureStorageController implements IStorageController
         return result;
     }
 
-    public ArrayList<Visit> GetPastVisits(AccountType accType, String username)
+    public ArrayList<Visit> GetPastVisits(AccountType accType, String username) throws IllegalArgumentException
     {
-        List<UUID> ids = getTreatmentIds(accType, username);
+        List<UUID> ids = getVisitIds(accType, username);
         ArrayList<Visit> result = new ArrayList<>();
         if (ids != null)
             for(UUID id : ids)
@@ -138,11 +154,11 @@ public class SecureStorageController implements IStorageController
         return result;
     }
 
-    public ArrayList<Visit> GetFutureVisits(String username)
+    public ArrayList<Visit> GetFutureVisits(String username) throws IllegalArgumentException
     {
         if(!this.db.patients.containsKey(username))
             throw new IllegalArgumentException("username");
-        List<UUID> ids = getTreatmentIds(AccountType.Doctor, username);
+        List<UUID> ids = getVisitIds(AccountType.Doctor, username);
         ArrayList<Visit> result = new ArrayList<>();
         if (ids != null)
             for(UUID id : ids)
@@ -154,7 +170,7 @@ public class SecureStorageController implements IStorageController
         return result;
     }
 
-    public void AddVisit(LocalDateTime date, String patientUsername, String doctorUsername, Ailment ailment)
+    public void AddVisit(LocalDateTime date, String patientUsername, String doctorUsername, Ailment ailment) throws IllegalArgumentException
     {
         if(!this.db.patients.containsKey(patientUsername))
             throw new IllegalArgumentException("patientUsername");
@@ -163,11 +179,11 @@ public class SecureStorageController implements IStorageController
         Visit v = new Visit(date, ailment);
         UUID uuid = UUID.randomUUID();
         this.db.visits.put(uuid, v);
-        this.db.patients.get(getUserKey(AccountType.Patient, patientUsername)).AddVisit(uuid);
-        this.db.doctors.get(getUserKey(AccountType.Doctor, doctorUsername)).AddVisit(uuid);
+        this.db.patients.get(patientUsername).AddVisit(uuid);
+        this.db.doctors.get(doctorUsername).AddVisit(uuid);
     }
 
-    public void AddTreatment(LocalDateTime date, String patientUsername, String doctorUsername, TreatmentType treatment)
+    public void AddTreatment(LocalDateTime date, String patientUsername, String doctorUsername, TreatmentType treatment) throws IllegalArgumentException
     {
         if(!this.db.patients.containsKey(patientUsername))
             throw new IllegalArgumentException("patientUsername");
@@ -176,18 +192,18 @@ public class SecureStorageController implements IStorageController
         Treatment t = new Treatment(date, treatment, patientUsername, doctorUsername);
         UUID uuid = UUID.randomUUID();
         this.db.treatments.put(uuid, t);
-        this.db.patients.get(getUserKey(AccountType.Patient, patientUsername)).AddTreatment(uuid);
-        this.db.doctors.get(getUserKey(AccountType.Doctor, doctorUsername)).AddTreatment(uuid);
+        this.db.patients.get(patientUsername).AddTreatment(uuid);
+        this.db.doctors.get(doctorUsername).AddTreatment(uuid);
     }
 
-    public void SetPrivacy(String username, boolean accessGranted)
+    public void SetPrivacy(String username, boolean accessGranted) throws IllegalArgumentException
     {
         if(!this.db.patients.containsKey(username))
             throw new IllegalArgumentException("username");
         this.db.patients.get(username).PrivacySetting = accessGranted;
     }
 
-    public boolean GetPrivacy(String username)
+    public boolean GetPrivacy(String username) throws IllegalArgumentException
     {
         if(!this.db.patients.containsKey(username))
             throw new IllegalArgumentException("username");
@@ -204,12 +220,12 @@ public class SecureStorageController implements IStorageController
 
     }
 
-    public void RemoveDoctor(String username)
+    public void RemoveDoctor(String username) throws IllegalArgumentException
     {
 
     }
 
-    public void RemovePatient(String username)
+    public void RemovePatient(String username) throws IllegalArgumentException
     {
 
     }
@@ -230,46 +246,55 @@ public class SecureStorageController implements IStorageController
         return null;
     }
 
-    public void ChangeName(AccountType accType, String username, String newName)
+    public void ChangeName(AccountType accType, String username, String newName) throws IllegalArgumentException
     {
         User u = getUser(accType, username);
         if(u != null)
             u.name = newName;
     }
 
-    public void ChangeAddress(AccountType accType, String username, String newAddress)
+    public void ChangeAddress(AccountType accType, String username, String newAddress) throws IllegalArgumentException
     {
         User u = getUser(accType, username);
         if(u != null)
             u.address = newAddress;
     }
 
-    public void SetDoctor(String patientUsername, String doctorUsername)
+    public void SetDoctor(String patientUsername, String doctorUsername) throws IllegalArgumentException
     {
 
     }
 
-    public void SetWorkingDays(String username, boolean[] workingDays)
+    public void SetWorkingDays(String username, boolean[] workingDays) throws IllegalArgumentException
     {
 
     }
 
-    public String GetFirstChoiceDoctor(String patientUsername)
+    public String GetFirstChoiceDoctor(String patientUsername) throws IllegalArgumentException
     {
         if(!this.db.patients.containsKey(patientUsername))
             throw new IllegalArgumentException("username");
         return this.db.patients.get(patientUsername).DoctorUsername;
     }
 
-    public void SetFirstChoiceDoctor(String patientUsername, String DoctorUsername)
+    public void SetFirstChoiceDoctor(String patientUsername, String DoctorUsername) throws IllegalArgumentException
     {
 
     }
 
-    public String GetUserRealName(AccountType accType, String username)
+    public String GetUserRealName(AccountType accType, String username) throws IllegalArgumentException
     {
-        if(!this.db.doctors.containsKey(username))
-            throw new IllegalArgumentException("username");
-        return this.db.doctors.get(username).name;
+        User u = getUser(accType, username);
+        if(u != null)
+            return u.name;
+        return "";
+    }
+
+    public String GetUserAddress(AccountType accType, String username) throws IllegalArgumentException
+    {
+        User u = getUser(accType, username);
+        if(u != null)
+            return u.address;
+        return "";
     }
 }

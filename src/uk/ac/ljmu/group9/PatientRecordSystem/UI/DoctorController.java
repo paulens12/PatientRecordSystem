@@ -5,15 +5,13 @@ import uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController;
 
 import java.util.Scanner;
 
-public class DoctorController implements IActionController
+public class DoctorController extends PatientDoctorController implements IActionController
 {
-    private IStorageController sc;
-    private Scanner scanner;
-
     public DoctorController(IStorageController sc, Scanner scanner)
     {
         this.sc = sc;
         this.scanner = scanner;
+        this.accountType = AccountType.Doctor;
     }
 
     public boolean ExecuteAction(String action)
@@ -21,11 +19,11 @@ public class DoctorController implements IActionController
         switch(action)
         {
             case "ViewFutureAppointments":
-                return ViewFutureAppointments();
+                return ListFutureAppointments();
             case "ViewPastAppointments":
-                return ViewPastAppointments();
+                return ListVisits();
             case "ViewPastTreatments":
-                return ViewPastTreatments();
+                return ListTreatments();
             case "AddTreatment":
                 return AddTreatment();
             case "Login":
@@ -37,32 +35,7 @@ public class DoctorController implements IActionController
         }
     }
 
-    private boolean ChangeDetails()
-    {
-        return true;
-    }
-
-    private boolean Login()
-    {
-        System.out.println("Please enter your username:");
-        String username = scanner.nextLine();
-        System.out.println("Please enter your password:");
-        String password = scanner.nextLine();
-
-        return this.sc.VerifyPassword(AccountType.Doctor, username, password);
-    }
-
-    private boolean ViewFutureAppointments()
-    {
-        return true;
-    }
-
-    private boolean ViewPastAppointments()
-    {
-        return true;
-    }
-
-    private boolean ViewPastTreatments()
+    private boolean ListFutureAppointments()
     {
         return true;
     }

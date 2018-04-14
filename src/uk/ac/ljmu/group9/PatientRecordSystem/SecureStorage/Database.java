@@ -22,7 +22,9 @@ public class Database implements java.io.Serializable
         this.userCredentials.put("Doctor-Doctor1", new Credentials("Doctor1", "Passw0rd."));
         this.patients = new HashMap<>();
         this.patients.put("Patient1", new Patient("Patient 1", "patient 1's address goes here", true));
+        this.patients.get("Patient1").DoctorUsername = "Doctor1";
         this.doctors = new HashMap<>();
+        this.doctors.put("Doctor1", new Doctor("Doctor 1", "doctor 1's address goes here", new boolean[]{true, true, true, true, true, false, false}));
         this.treatments = new HashMap<>();
         this.visits = new HashMap<>();
     }
