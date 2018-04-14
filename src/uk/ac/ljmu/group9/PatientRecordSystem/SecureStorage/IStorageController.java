@@ -13,7 +13,6 @@ public interface IStorageController
     void Load();
     void Save();
     boolean VerifyPassword(AccountType accType, String username, String password) throws IllegalArgumentException;
-    void ChangePassword(AccountType accType, String username, String newPassword) throws IllegalArgumentException;
     boolean VerifyPasswordStrength(String rawPassword);
     ArrayList<Treatment> GetTreatments(AccountType accType, String username) throws IllegalArgumentException;
     ArrayList<Visit> GetPastVisits(AccountType accType, String username) throws IllegalArgumentException;

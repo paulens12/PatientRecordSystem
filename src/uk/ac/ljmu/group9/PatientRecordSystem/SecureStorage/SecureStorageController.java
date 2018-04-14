@@ -104,14 +104,6 @@ public class SecureStorageController implements IStorageController
         return db.userCredentials.containsKey(key) && db.userCredentials.get(key).Verify(password);
     }
 
-    public void ChangePassword(AccountType accType, String username, String newPassword) throws IllegalArgumentException
-    {
-        String key = getUserKey(accType, username);
-        if(!db.userCredentials.containsKey(key))
-            throw new IllegalArgumentException();
-        db.userCredentials.get(key).SetPassword(newPassword);
-    }
-
     public boolean VerifyPasswordStrength(String rawPassword)
     {
         Matcher matcher = passwordPattern.matcher(rawPassword);

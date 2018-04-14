@@ -56,6 +56,7 @@ public abstract class PatientDoctorController
 
     protected boolean ListTreatments()
     {
+
         ArrayList<Treatment> treatments;
         try
         {
@@ -68,7 +69,18 @@ public abstract class PatientDoctorController
         }
         treatments.sort((o1, o2) -> o2.Date.compareTo(o1.Date));
         for (Treatment t : treatments)
-            System.out.println(String.format("%s: %s%s", t.Date.format(UserInterface.DateFormat), t.Type.GetText(), this.sc.GetUserRealName(AccountType.Doctor, this.accountType == AccountType.Patient ? " by doctor " + t.doctorUsername : " given to " + t.patientUsername)));
+            try
+            {
+                System.out.println(
+                        String.format("%s: %s %s %s (%s)",
+                                t.Date.format(UserInterface.DateFormat),
+                                t.Type.GetText(),
+                                this.accountType == AccountType.Patient ? "by doctor" : "given to",
+                                this.sc.GetUserRealName(this.accountType == AccountType.Patient ? AccountType.Doctor : AccountType.Patient,
+                                        this.accountType == AccountType.Patient ? t.doctorUsername : t.patientUsername),
+                                this.accountType == AccountType.Patient ? t.doctorUsername : t.patientUsername));
+            }
+            catch(IllegalArgumentException ignored){}
         System.out.println("End of list. Press <enter> to continue");
         this.scanner.nextLine();
         return true;
@@ -89,7 +101,10 @@ public abstract class PatientDoctorController
         }
         visits.sort((o1, o2) -> o2.Date.compareTo(o1.Date));
         for (Visit v : visits)
-            System.out.println(String.format("%s: %s%s", v.Date.format(UserInterface.DateFormat), v.Ailment.GetText(), this.accountType == AccountType.Doctor ? " - " + v.Patient : ""));
+            System.out.println(String.format("%s: %s%s",
+                    v.Date.format(UserInterface.DateFormat),
+                    v.Ailment.GetText(),
+                    this.accountType == AccountType.Doctor ? String.format(" by patient %s (%s)", this.sc.GetUserRealName(AccountType.Patient, v.Patient), v.Patient) : ""));
         System.out.println("End of list. Press <enter> to continue");
         this.scanner.nextLine();
         return true;

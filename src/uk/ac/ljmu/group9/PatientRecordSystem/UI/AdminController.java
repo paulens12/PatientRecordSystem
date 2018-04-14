@@ -2,7 +2,9 @@ package uk.ac.ljmu.group9.PatientRecordSystem.UI;
 
 import uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.AccountType;
 import uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController;
+import uk.ac.ljmu.group9.PatientRecordSystem.Treatment;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdminController implements IActionController
@@ -255,6 +257,11 @@ public class AdminController implements IActionController
 
         PatientController pc = new PatientController(this.sc, this.scanner);
         pc.username = patient;
+        if(this.sc.GetPrivacy(patient) == false)
+        {
+            System.out.println("This patient has chosen not to show their treatments to the practice administrator.");
+            return false;
+        }
         System.out.println("Treatments received:");
         return pc.ListTreatments();
     }
@@ -267,7 +274,23 @@ public class AdminController implements IActionController
         DoctorController dc = new DoctorController(this.sc, this.scanner);
         dc.username = doctor;
         System.out.println("Treatments received:");
-        return dc.ListTreatments();
+        ArrayList<Treatment> treatments;
+        try
+        {
+            treatments = this.sc.GetTreatments(AccountType.Doctor, doctor);
+        }
+        catch(IllegalArgumentException e)
+        {
+            System.out.println("Invalid user.");
+            return false;
+        }
+        treatments.sort((o1, o2) -> o2.Date.compareTo(o1.Date));
+        for (Treatment t : treatments)
+            if(this.sc.GetPrivacy(t.patientUsername))
+            System.out.println(String.format("%s: %s given to %s", t.Date.format(UserInterface.DateFormat), t.Type.GetText(), this.sc.GetUserRealName(AccountType.Patient, t.patientUsername)));
+        System.out.println("End of list. Press <enter> to continue");
+        this.scanner.nextLine();
+        return true;
     }
 
     private boolean ListPatientVisits()
