@@ -1,6 +1,7 @@
 package uk.ac.ljmu.group9.PatientRecordSystem.UI;
 
 import uk.ac.ljmu.group9.PatientRecordSystem.Ailment;
+import uk.ac.ljmu.group9.PatientRecordSystem.OutsideWorkingDaysException;
 import uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.AccountType;
 import uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController;
 
@@ -26,6 +27,7 @@ public class PatientController extends PatientDoctorController implements IActio
             case "RequestAppointment":
                 return RequestAppointment();
             case "ListTreatments":
+                System.out.println("Treatments you have received:");
                 return ListTreatments();
             case "ListVisits":
                 return ListVisits();
@@ -40,8 +42,8 @@ public class PatientController extends PatientDoctorController implements IActio
 
     private boolean SetPrivacy()
     {
-        String enabled = "Everyone can see my appointments";
-        String disabled = "My appointments are hidden";
+        String enabled = "The practice administrator can see my treatments";
+        String disabled = "My treatments are hidden";
         System.out.println(String.format("Current setting: %s.\n\n1 - %s\n2 - %s", this.sc.GetPrivacy(this.username) ? enabled : disabled, enabled, disabled));
         int selection = UserInterface.GetInt(this.scanner);
         this.sc.SetPrivacy(this.username, selection == 1 || selection != 2 && this.sc.GetPrivacy(this.username));
@@ -110,10 +112,18 @@ public class PatientController extends PatientDoctorController implements IActio
             return false;
         }
 
-        try {
+        try
+        {
             this.sc.AddVisit(ldt, this.username, this.sc.GetFirstChoiceDoctor(this.username), ailment);
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             System.out.println("You don't have a first choice dentist assigned, please contact the administrator.");
+            return false;
+        }
+        catch(OutsideWorkingDaysException e)
+        {
+            System.out.println("Your first choice dentist doesn't work that day");
             return false;
         }
         return true;

@@ -1,9 +1,6 @@
 package uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage;
 
-import uk.ac.ljmu.group9.PatientRecordSystem.Ailment;
-import uk.ac.ljmu.group9.PatientRecordSystem.Treatment;
-import uk.ac.ljmu.group9.PatientRecordSystem.TreatmentType;
-import uk.ac.ljmu.group9.PatientRecordSystem.Visit;
+import uk.ac.ljmu.group9.PatientRecordSystem.*;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -28,7 +25,8 @@ public class SecureStorageController implements IStorageController
     private static final String keyPhrase = "fdjashr234h2qihbfjdksala";
     private FileOutputStream fileOut;
     private FileInputStream fileIn;
-    private static final Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*.-_=+\\[\\]{};':\",<>\\\\|])(?=.{8,})");
+    private static final Pattern passwordPattern = Pattern.compile("^(?=.*[A-Z])(?=.*[!@#$&*%^()\\-_=+{}\\[\\];'\\\\:\"|<>?,./])(?=.*[0-9])(?=.*[a-z]).{8,}$");
+    //^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*.\-_=+\[\]{};':",<>\\|])(?=.{8,})
 
     public SecureStorageController()
     {
@@ -41,11 +39,11 @@ public class SecureStorageController implements IStorageController
         this.db = new Database();
     }
 
-    private SecretKeySpec getKey(String myKey)
+    private SecretKeySpec getKey()
     {
         try
         {
-            byte[] keyB = myKey.getBytes("UTF-8");
+            byte[] keyB = SecureStorageController.keyPhrase.getBytes("UTF-8");
             //System.out.println(keyB.length);
             MessageDigest sha = MessageDigest.getInstance("SHA-1");
             keyB = sha.digest(keyB);
@@ -73,7 +71,7 @@ public class SecureStorageController implements IStorageController
         {
             try {
                 Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-                cipher.init(Cipher.DECRYPT_MODE, getKey(keyPhrase));
+                cipher.init(Cipher.DECRYPT_MODE, getKey());
                 FileInputStream fileIn = new FileInputStream(fileName);
                 CipherInputStream inputStream = new CipherInputStream(fileIn, cipher);
                 ObjectInputStream ois = new ObjectInputStream(inputStream);
@@ -88,7 +86,7 @@ public class SecureStorageController implements IStorageController
     {
         try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, getKey(keyPhrase));
+            cipher.init(Cipher.ENCRYPT_MODE, getKey());
             FileOutputStream fileOut = new FileOutputStream(fileName);
             CipherOutputStream outputStream = new CipherOutputStream(fileOut, cipher);
             ObjectOutputStream oos = new ObjectOutputStream(outputStream);
@@ -116,7 +114,7 @@ public class SecureStorageController implements IStorageController
 
     public boolean VerifyPasswordStrength(String rawPassword)
     {
-        Matcher matcher = this.passwordPattern.matcher(rawPassword);
+        Matcher matcher = passwordPattern.matcher(rawPassword);
         return matcher.matches();
     }
 
@@ -196,6 +194,8 @@ public class SecureStorageController implements IStorageController
             throw new IllegalArgumentException("patientUsername");
         if(!this.db.doctors.containsKey(doctorUsername))
             throw new IllegalArgumentException("doctorUsername");
+        if(!this.db.doctors.get(doctorUsername).GetWorkingDay(date.getDayOfWeek().getValue()))
+            throw new OutsideWorkingDaysException();
         Visit v = new Visit(date, ailment, patientUsername);
         UUID uuid = UUID.randomUUID();
         this.db.visits.put(uuid, v);
@@ -232,22 +232,37 @@ public class SecureStorageController implements IStorageController
 
     public void AddDoctor(String username, String name, String address, boolean[] workingDays, String password)
     {
-
+        Doctor d = new Doctor(name, address, workingDays);
+        Credentials c = new Credentials(username, password);
+        this.db.doctors.put(username, d);
+        this.db.userCredentials.put("Doctor-" + username, c);
     }
 
-    public void AddPatient(String username, String name, String address, String doctorUsername, String password)
+    public void AddPatient(String username, String name, String address, String doctorUsername, String password) throws IllegalArgumentException
     {
-
+        if(!this.db.doctors.containsKey(doctorUsername))
+            throw new IllegalArgumentException();
+        Patient p = new Patient(name, address, doctorUsername);
+        Credentials c = new Credentials(username, password);
+        this.db.patients.put(username, p);
+        this.db.userCredentials.put("Patient-" + username, c);
+        SetDoctor(username, doctorUsername);
     }
 
     public void RemoveDoctor(String username) throws IllegalArgumentException
     {
-
+        if(!this.db.doctors.containsKey(username))
+            throw new IllegalArgumentException();
+        this.db.doctors.remove(username);
+        this.db.userCredentials.remove("Doctor-" + username);
     }
 
     public void RemovePatient(String username) throws IllegalArgumentException
     {
-
+        if(!this.db.patients.containsKey(username))
+            throw new IllegalArgumentException();
+        this.db.patients.remove(username);
+        this.db.userCredentials.remove("Patient-" + username);
     }
 
     private User getUser(AccountType accType, String username)
@@ -282,12 +297,18 @@ public class SecureStorageController implements IStorageController
 
     public void SetDoctor(String patientUsername, String doctorUsername) throws IllegalArgumentException
     {
-
+        if(!this.db.doctors.containsKey(doctorUsername))
+            throw new IllegalArgumentException();
+        if(!this.db.patients.containsKey(patientUsername))
+            throw new IllegalArgumentException();
+        this.db.patients.get(patientUsername).DoctorUsername = doctorUsername;
     }
 
     public void SetWorkingDays(String username, boolean[] workingDays) throws IllegalArgumentException
     {
-
+        if(!this.db.doctors.containsKey(username))
+            throw new IllegalArgumentException();
+        this.db.doctors.get(username).SetWorkingDays(workingDays);
     }
 
     public String GetFirstChoiceDoctor(String patientUsername) throws IllegalArgumentException
@@ -295,11 +316,6 @@ public class SecureStorageController implements IStorageController
         if(!this.db.patients.containsKey(patientUsername))
             throw new IllegalArgumentException("username");
         return this.db.patients.get(patientUsername).DoctorUsername;
-    }
-
-    public void SetFirstChoiceDoctor(String patientUsername, String DoctorUsername) throws IllegalArgumentException
-    {
-
     }
 
     public String GetUserRealName(AccountType accType, String username) throws IllegalArgumentException

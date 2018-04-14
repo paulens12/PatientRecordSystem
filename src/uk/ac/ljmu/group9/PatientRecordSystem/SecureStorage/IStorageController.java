@@ -23,7 +23,7 @@ public interface IStorageController
     void SetPrivacy(String username, boolean accessGranted) throws IllegalArgumentException;
     boolean GetPrivacy(String username) throws IllegalArgumentException;
     void AddDoctor(String username, String name, String address, boolean[] workingDays, String password);
-    void AddPatient(String username, String name, String address, String doctorUsername, String password);
+    void AddPatient(String username, String name, String address, String doctorUsername, String password) throws IllegalArgumentException;
     void RemoveDoctor(String username) throws IllegalArgumentException;
     void RemovePatient(String username) throws IllegalArgumentException;
     void ChangeName(AccountType accType, String username, String newName) throws IllegalArgumentException;
@@ -31,7 +31,6 @@ public interface IStorageController
     void SetDoctor(String patientUsername, String doctorUsername) throws IllegalArgumentException;
     void SetWorkingDays(String username, boolean[] workingDays) throws IllegalArgumentException;
     String GetFirstChoiceDoctor(String patientUsername) throws IllegalArgumentException;
-    void SetFirstChoiceDoctor(String patientUsername, String DoctorUsername) throws IllegalArgumentException;
     String GetUserRealName(AccountType accType, String username) throws IllegalArgumentException;
     String GetUserAddress(AccountType accType, String username) throws IllegalArgumentException;
 }

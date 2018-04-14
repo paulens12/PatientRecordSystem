@@ -27,6 +27,7 @@ public class DoctorController extends PatientDoctorController implements IAction
             case "ViewPastAppointments":
                 return ListVisits();
             case "ViewPastTreatments":
+                System.out.println("Treatments you have given:");
                 return ListTreatments();
             case "AddTreatment":
                 return AddTreatment();
@@ -39,10 +40,19 @@ public class DoctorController extends PatientDoctorController implements IAction
         }
     }
 
-    private boolean ListFutureAppointments()
+    protected boolean ListFutureAppointments()
     {
         System.out.println("Your upcoming appointments:");
-        ArrayList<Visit> visits = this.sc.GetFutureVisits(this.username);
+        ArrayList<Visit> visits;
+        try
+        {
+            visits = this.sc.GetFutureVisits(this.username);
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println("Invalid user.");
+            return false;
+        }
         visits.sort((o1, o2) -> o2.Date.compareTo(o1.Date));
         for (Visit v : visits)
             System.out.println(String.format("%s: %s - %s", v.Date.format(UserInterface.DateFormat), v.Patient, v.Ailment.GetText()));

@@ -24,8 +24,9 @@ public class UserInterface
     }
 
     private Node initializeMenuStructure() {
-        PatientController pc = new PatientController(storageController, scanner);
+        PatientController pc = new PatientController(this.storageController, scanner);
         DoctorController dc = new DoctorController(storageController, scanner);
+        AdminController ac = new AdminController(storageController, scanner);
 
         // patient functionality
         Node setPrivacy = new Node("Set privacy setting", pc, "SetPrivacy");
@@ -46,21 +47,22 @@ public class UserInterface
         Node doctorLogin = new Node("Dentist login", dc, "Login", doctorMenu);
 
         //admin functionality
-        Node listDoctorAppointments = new Node("List a dentist's upcoming appointments", null, "ListDoctorAppointments");
-        Node listPatientVisits = new Node("List a patient's past visits", null, "ListPatientVisits");
-        Node listDoctorTreatments = new Node("List a dentist's treatments", null, "ListDoctorTreatments");
-        Node listPatientTreatments = new Node("List a patient's treatments", null, "ListPatientTreatments");
-        Node addDoctor = new Node("Add a new dentist", null, "AddDoctor");
-        Node addPatient = new Node("Add a new patient", null, "AddPatient");
-        Node remDoctor = new Node("Remove a dentist", null, "RemoveDoctor");
-        Node remPatient = new Node("Remove a patient", null, "RemovePatient");
-        Node setDoctor = new Node("Set the first choice dentist of a patient", null, "SetDoctor");
-        Node setWorkingDays = new Node("Set a dentist's working days", null, "SetWorkingDays");
-        Node adminMenu = new Node("Admin menu", Arrays.asList(listDoctorAppointments, listPatientVisits, listDoctorTreatments, listPatientTreatments, addDoctor, addPatient, remDoctor, remPatient, setDoctor, setWorkingDays));
-        Node adminLogin = new Node("Admin login", dc, "Login", adminMenu);
+        Node listDoctorAppointments = new Node("List a dentist's past appointments", ac, "ListDoctorAppointments");
+        Node listDoctorFutureAppointments = new Node("List a dentist's upcoming appointments", ac, "ListDoctorFutureAppointments");
+        Node listPatientVisits = new Node("List a patient's past visits", ac, "ListPatientVisits");
+        Node listDoctorTreatments = new Node("List a dentist's treatments", ac, "ListDoctorTreatments");
+        Node listPatientTreatments = new Node("List a patient's treatments", ac, "ListPatientTreatments");
+        Node addDoctor = new Node("Add a new dentist", ac, "AddDoctor");
+        Node addPatient = new Node("Add a new patient", ac, "AddPatient");
+        Node remDoctor = new Node("Remove a dentist", ac, "RemoveDoctor");
+        Node remPatient = new Node("Remove a patient", ac, "RemovePatient");
+        Node setDoctor = new Node("Set the first choice dentist of a patient", ac, "SetDoctor");
+        Node setWorkingDays = new Node("Set a dentist's working days", ac, "SetWorkingDays");
+        Node adminMenu = new Node("Admin menu", Arrays.asList(listDoctorAppointments, listDoctorFutureAppointments, listPatientVisits, listDoctorTreatments, listPatientTreatments, addDoctor, addPatient, remDoctor, remPatient, setDoctor, setWorkingDays));
+        Node adminLogin = new Node("Admin login", ac, "Login", adminMenu);
         //Node listTreatments = new Node("", null, null);
 
-        return new Node("Patient Record System", Arrays.asList(patientLogin, doctorLogin, adminMenu));
+        return new Node("Patient Record System", Arrays.asList(patientLogin, doctorLogin, adminLogin));
     }
 
     // UI initialization
@@ -117,7 +119,7 @@ public class UserInterface
         System.out.println();
         if(current != rootNode)
             System.out.println("0. Previous menu");
-        System.out.println("Other - exit application");
+        System.out.println("Other - exit application and save data");
         int selection = GetInt(scanner);
         if(selection == 0)
             return current.ParentNode;

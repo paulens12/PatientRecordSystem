@@ -45,7 +45,8 @@ public abstract class PatientDoctorController
         System.out.println("Please enter your password:");
         String password = this.scanner.nextLine();
 
-        if (this.sc.VerifyPassword(this.accountType, username, password)) {
+        if (this.sc.VerifyPassword(this.accountType, username, password))
+        {
             this.username = username;
             return true;
         }
@@ -55,11 +56,19 @@ public abstract class PatientDoctorController
 
     protected boolean ListTreatments()
     {
-        System.out.println("Treatments you have received:");
-        ArrayList<Treatment> treatments = this.sc.GetTreatments(this.accountType, this.username);
+        ArrayList<Treatment> treatments;
+        try
+        {
+            treatments = this.sc.GetTreatments(this.accountType, this.username);
+        }
+        catch(IllegalArgumentException e)
+        {
+            System.out.println("Invalid user.");
+            return false;
+        }
         treatments.sort((o1, o2) -> o2.Date.compareTo(o1.Date));
         for (Treatment t : treatments)
-            System.out.println(String.format("%s: %s by doctor %s", t.Date.format(UserInterface.DateFormat), t.Type.GetText(), this.sc.GetUserRealName(AccountType.Doctor, t.doctorUsername)));
+            System.out.println(String.format("%s: %s%s", t.Date.format(UserInterface.DateFormat), t.Type.GetText(), this.sc.GetUserRealName(AccountType.Doctor, this.accountType == AccountType.Patient ? " by doctor " + t.doctorUsername : " given to " + t.patientUsername)));
         System.out.println("End of list. Press <enter> to continue");
         this.scanner.nextLine();
         return true;
@@ -67,11 +76,20 @@ public abstract class PatientDoctorController
 
     protected boolean ListVisits()
     {
-        System.out.println("Your past visits:");
-        ArrayList<Visit> visits = this.sc.GetPastVisits(this.accountType, this.username);
+        System.out.println("Past visits:");
+        ArrayList<Visit> visits;
+        try
+        {
+            visits = this.sc.GetPastVisits(this.accountType, this.username);
+        }
+        catch(IllegalArgumentException e)
+        {
+            System.out.println("Invalid user.");
+            return false;
+        }
         visits.sort((o1, o2) -> o2.Date.compareTo(o1.Date));
         for (Visit v : visits)
-            System.out.println(String.format("%s: %s", v.Date.format(UserInterface.DateFormat), v.Ailment.GetText()));
+            System.out.println(String.format("%s: %s%s", v.Date.format(UserInterface.DateFormat), v.Ailment.GetText(), this.accountType == AccountType.Doctor ? " - " + v.Patient : ""));
         System.out.println("End of list. Press <enter> to continue");
         this.scanner.nextLine();
         return true;
