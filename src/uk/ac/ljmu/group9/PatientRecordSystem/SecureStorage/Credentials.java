@@ -1,11 +1,12 @@
 package uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage;
 
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-public class Credentials
+public class Credentials implements Serializable
 {
     private String username;
     private byte[] passwordHash;
@@ -29,13 +30,13 @@ public class Credentials
 
     private byte[] EncryptPassword(String str)
     {
-        MessageDigest digest = null;
         try {
-            digest = MessageDigest.getInstance("SHA-256");
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            return digest.digest((str + this.salt).getBytes(StandardCharsets.UTF_8));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return digest.digest((str + this.salt).getBytes(StandardCharsets.UTF_8));
+        return null;
     }
 
     public void SetPassword(String newPassword)

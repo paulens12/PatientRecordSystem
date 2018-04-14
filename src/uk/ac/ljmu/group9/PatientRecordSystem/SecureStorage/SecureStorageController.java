@@ -9,9 +9,11 @@ import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -21,28 +23,42 @@ public class SecureStorageController implements IStorageController
 {
     private static final String fileName = "D:\\PatientRecordSystem.db";
     private Database db;
-    private Cipher cipher;
-    private SecretKey key;
+    //private Cipher cipher;
+    //private SecretKey key;
+    private static final String keyPhrase = "fdjashr234h2qihbfjdksala";
     private FileOutputStream fileOut;
     private FileInputStream fileIn;
-    private Pattern passwordPattern;
+    private static final Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*.-_=+\\[\\]{};':\",<>\\\\|])(?=.{8,})");
 
     public SecureStorageController()
     {
-        try {
-            this.fileOut = new FileOutputStream(fileName);
-            this.fileIn = new FileInputStream(fileName);
-            //final KeyGenerator kg = KeyGenerator.getInstance("AES");
-            //kg.init(new SecureRandom());
-            //this.key = kg.generateKey();
-            this.key = new SecretKeySpec(new byte[]{64,10,122,-105,79,-14,25,-90,-122,23,-87,-122,-72,-15,71,93}, "AES");
-            this.cipher = Cipher.getInstance("AES");
-            this.passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*.-_=+\\[\\]{};':\",<>\\\\|])(?=.{8,})");
-            this.db = new Database();
-            Load();
-        } catch (FileNotFoundException | NoSuchPaddingException | NoSuchAlgorithmException e) {
+        //final KeyGenerator kg = KeyGenerator.getInstance("AES");
+        //kg.init(new SecureRandom());
+        //this.key = kg.generateKey();
+        //this.key = getKey(keyPhrase);
+        //this.key = new SecretKeySpec(new byte[]{64,10,122,-105,79,-14,25,-90,-122,23,-87,-122,-72,-15,71,93}, "AES");
+        //this.cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        this.db = new Database();
+    }
+
+    private SecretKeySpec getKey(String myKey)
+    {
+        try
+        {
+            byte[] keyB = myKey.getBytes("UTF-8");
+            //System.out.println(keyB.length);
+            MessageDigest sha = MessageDigest.getInstance("SHA-1");
+            keyB = sha.digest(keyB);
+            keyB = Arrays.copyOf(keyB, 16); // use only first 128 bit
+            //System.out.println(keyB.length);
+            //System.out.println(new String(keyB, "UTF-8"));
+            return new SecretKeySpec(keyB, "AES");
+
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e)
+        {
             e.printStackTrace();
         }
+        return null;
     }
 
     private String getUserKey(AccountType accType, String username)
@@ -56,11 +72,13 @@ public class SecureStorageController implements IStorageController
         if(f.isFile() && f.length() != 0)
         {
             try {
-                this.cipher.init(Cipher.DECRYPT_MODE, this.key);
-                CipherInputStream inputStream = new CipherInputStream(this.fileIn, this.cipher);
+                Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+                cipher.init(Cipher.DECRYPT_MODE, getKey(keyPhrase));
+                FileInputStream fileIn = new FileInputStream(fileName);
+                CipherInputStream inputStream = new CipherInputStream(fileIn, cipher);
                 ObjectInputStream ois = new ObjectInputStream(inputStream);
                 this.db = (Database) ois.readObject();
-            } catch (InvalidKeyException | IOException | ClassNotFoundException e) {
+            } catch (InvalidKeyException | IOException | ClassNotFoundException | NoSuchPaddingException | NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
         }
@@ -69,11 +87,15 @@ public class SecureStorageController implements IStorageController
     public void Save()
     {
         try {
-            this.cipher.init(Cipher.ENCRYPT_MODE, this.key);
-            CipherOutputStream outputStream = new CipherOutputStream(this.fileOut, this.cipher);
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, getKey(keyPhrase));
+            FileOutputStream fileOut = new FileOutputStream(fileName);
+            CipherOutputStream outputStream = new CipherOutputStream(fileOut, cipher);
             ObjectOutputStream oos = new ObjectOutputStream(outputStream);
             oos.writeObject(this.db);
-        } catch (InvalidKeyException | IOException e) {
+            oos.flush();
+            oos.close();
+        } catch (InvalidKeyException | IOException | NoSuchPaddingException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
@@ -156,8 +178,6 @@ public class SecureStorageController implements IStorageController
 
     public ArrayList<Visit> GetFutureVisits(String username) throws IllegalArgumentException
     {
-        if(!this.db.patients.containsKey(username))
-            throw new IllegalArgumentException("username");
         List<UUID> ids = getVisitIds(AccountType.Doctor, username);
         ArrayList<Visit> result = new ArrayList<>();
         if (ids != null)
@@ -176,7 +196,7 @@ public class SecureStorageController implements IStorageController
             throw new IllegalArgumentException("patientUsername");
         if(!this.db.doctors.containsKey(doctorUsername))
             throw new IllegalArgumentException("doctorUsername");
-        Visit v = new Visit(date, ailment);
+        Visit v = new Visit(date, ailment, patientUsername);
         UUID uuid = UUID.randomUUID();
         this.db.visits.put(uuid, v);
         this.db.patients.get(patientUsername).AddVisit(uuid);

@@ -44,7 +44,6 @@ public class PatientController extends PatientDoctorController implements IActio
         String disabled = "My appointments are hidden";
         System.out.println(String.format("Current setting: %s.\n\n1 - %s\n2 - %s", this.sc.GetPrivacy(this.username) ? enabled : disabled, enabled, disabled));
         int selection = UserInterface.GetInt(this.scanner);
-        this.scanner.nextLine();
         this.sc.SetPrivacy(this.username, selection == 1 || selection != 2 && this.sc.GetPrivacy(this.username));
         return true;
     }

@@ -18,6 +18,7 @@ public class UserInterface
     public UserInterface()
     {
         this.storageController = new SecureStorageController();
+        this.storageController.Load();
         this.rootNode = initializeMenuStructure();
         //this.storageController = new SecureStorageController();
     }
@@ -91,13 +92,16 @@ public class UserInterface
             if(currentNode == null)
                 break;
         }
+        this.storageController.Save();
     }
 
     public static int GetInt(Scanner s)
     {
         try
         {
-            return s.nextInt();
+            int res = s.nextInt();
+            s.nextLine();
+            return res;
         }
         catch(InputMismatchException e)
         {
@@ -115,7 +119,6 @@ public class UserInterface
             System.out.println("0. Previous menu");
         System.out.println("Other - exit application");
         int selection = GetInt(scanner);
-        scanner.nextLine();
         if(selection == 0)
             return current.ParentNode;
         if(selection > 0 && selection <= current.ChildNodes.size())

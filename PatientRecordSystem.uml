@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>uk.ac.ljmu.group9.PatientRecordSystem</OriginalElement>
+  <nodes>
+    <node x="529.6629049111806" y="580.0">uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController</node>
+    <node x="421.2115660919535" y="2021.0">uk.ac.ljmu.group9.PatientRecordSystem.UI.UserInterface</node>
+    <node x="144.1903278474399" y="1218.0">uk.ac.ljmu.group9.PatientRecordSystem.UI.IActionController</node>
+    <node x="1407.8208333333334" y="0.0">uk.ac.ljmu.group9.PatientRecordSystem.TreatmentType</node>
+    <node x="384.0625" y="1613.0">uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientController</node>
+    <node x="793.0197100313476" y="298.0">uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.AccountType</node>
+    <node x="455.2115660919535" y="2191.0">uk.ac.ljmu.group9.PatientRecordSystem.Main</node>
+    <node x="996.6280433646809" y="309.0">uk.ac.ljmu.group9.PatientRecordSystem.Visit</node>
+    <node x="824.2111611807732" y="1229.0">uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientDoctorController</node>
+    <node x="1303.3295715778472" y="287.0">uk.ac.ljmu.group9.PatientRecordSystem.Treatment</node>
+    <node x="2079.117071577847" y="810.5">uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Patient</node>
+    <node x="743.7625" y="1613.0">uk.ac.ljmu.group9.PatientRecordSystem.UI.DoctorController</node>
+    <node x="1963.0083333333334" y="265.0">uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.User</node>
+    <node x="1820.1170715778471" y="810.5">uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Doctor</node>
+    <node x="10.5" y="1546.5">uk.ac.ljmu.group9.PatientRecordSystem.UI.Node</node>
+    <node x="1030.0708333333334" y="11.0">uk.ac.ljmu.group9.PatientRecordSystem.Ailment</node>
+    <node x="1356.5615660919534" y="1360.0">uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController</node>
+    <node x="1759.8115660919534" y="1218.0">uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Database</node>
+    <node x="1595.1170715778471" y="799.5">uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Credentials</node>
+    <node x="0.0" y="2288.0">uk.ac.ljmu.group9.PatientRecordSystem.MissingDoctorException</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.Treatment" target="uk.ac.ljmu.group9.PatientRecordSystem.TreatmentType">
+      <point x="93.25" y="-70.5" />
+      <point x="1583.0795715778472" y="245.0" />
+      <point x="1500.9458333333334" y="245.0" />
+      <point x="18.625" y="92.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientDoctorController" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.AccountType">
+      <point x="0.0" y="-15.0" />
+      <point x="911.2111611807732" y="1178.0" />
+      <point x="969.1629049111806" y="1178.0" />
+      <point x="969.1629049111806" y="510.0" />
+      <point x="879.9363766980141" y="510.0" />
+      <point x="12.416666666666515" y="59.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.Visit" target="uk.ac.ljmu.group9.PatientRecordSystem.Ailment">
+      <point x="-56.75" y="-48.5" />
+      <point x="1053.378043364681" y="225.0" />
+      <point x="1104.5708333333334" y="225.0" />
+      <point x="0.0" y="81.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.UserInterface" target="uk.ac.ljmu.group9.PatientRecordSystem.UI.DoctorController">
+      <point x="85.4545454545455" y="-60.0" />
+      <point x="624.166111546499" y="1991.0" />
+      <point x="977.0125" y="1991.0" />
+      <point x="77.75" y="37.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Patient" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.User">
+      <point x="58.0" y="-48.5" />
+      <point x="2253.117071577847" y="550.0" />
+      <point x="2114.9083333333338" y="550.0" />
+      <point x="43.40000000000009" y="92.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Doctor" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.User">
+      <point x="59.75" y="-48.5" />
+      <point x="1999.3670715778471" y="560.0" />
+      <point x="2028.1083333333333" y="560.0" />
+      <point x="-43.40000000000009" y="92.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.Visit">
+      <point x="83.59999999999991" y="-279.0" />
+      <point x="822.2629049111805" y="530.0" />
+      <point x="1019.328043364681" y="530.0" />
+      <point x="-90.79999999999995" y="48.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Database">
+      <point x="52.25" y="-290.5" />
+      <point x="1617.8115660919534" y="1300.0" />
+      <point x="1780.8115660919534" y="1300.0" />
+      <point x="-42.0" y="26.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.DoctorController" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController">
+      <point x="-62.19999999999982" y="-37.5" />
+      <point x="837.0625000000002" y="1290.0" />
+      <point x="699.2615660919537" y="1290.0" />
+      <point x="699.2615660919537" y="1198.0" />
+      <point x="738.6629049111806" y="1198.0" />
+      <point x="0.0" y="279.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.UserInterface" target="uk.ac.ljmu.group9.PatientRecordSystem.UI.Node">
+      <point x="-42.72727272727252" y="-60.0" />
+      <point x="495.984293364681" y="1971.0" />
+      <point x="266.33333333333326" y="1971.0" />
+      <point x="102.33333333333331" y="104.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.Ailment">
+      <point x="-52.25" y="-290.5" />
+      <point x="1513.3115660919534" y="1290.0" />
+      <point x="1234.128043364681" y="1290.0" />
+      <point x="1234.128043364681" y="215.0" />
+      <point x="1164.1708333333333" y="215.0" />
+      <point x="59.59999999999991" y="81.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.Treatment">
+      <point x="167.20000000000005" y="-279.0" />
+      <point x="905.8629049111806" y="550.0" />
+      <point x="1340.629571577847" y="550.0" />
+      <point x="-149.20000000000005" y="70.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.Visit">
+      <point x="-87.08333333333348" y="-290.5" />
+      <point x="1478.47823275862" y="1300.0" />
+      <point x="1194.6611611807732" y="1300.0" />
+      <point x="1194.6611611807732" y="470.0" />
+      <point x="1155.528043364681" y="470.0" />
+      <point x="45.40000000000009" y="48.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Database" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Credentials">
+      <point x="-7.875" y="-26.0" />
+      <point x="1814.9365660919534" y="1168.0" />
+      <point x="1748.8670715778471" y="1168.0" />
+      <point x="51.25" y="59.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Database" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Doctor">
+      <point x="7.875" y="-26.0" />
+      <point x="1830.6865660919534" y="1168.0" />
+      <point x="1879.8670715778471" y="1168.0" />
+      <point x="-59.75" y="48.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.UserInterface" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController">
+      <point x="106.81818181818198" y="-60.0" />
+      <point x="645.5297479101355" y="2001.0" />
+      <point x="1565.5615660919534" y="2001.0" />
+      <point x="0.0" y="290.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientController" target="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientDoctorController">
+      <point x="78.0" y="-37.5" />
+      <point x="618.0625" y="1310.0" />
+      <point x="841.6111611807733" y="1310.0" />
+      <point x="-69.59999999999991" y="15.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.Ailment">
+      <point x="-167.20000000000005" y="-279.0" />
+      <point x="571.4629049111805" y="500.0" />
+      <point x="562.8125000000002" y="500.0" />
+      <point x="562.8125000000002" y="215.0" />
+      <point x="1074.7708333333335" y="215.0" />
+      <point x="-29.799999999999955" y="81.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.DoctorController" target="uk.ac.ljmu.group9.PatientRecordSystem.UI.IActionController">
+      <point x="-124.40000000000009" y="-37.5" />
+      <point x="774.8625" y="1300.0" />
+      <point x="342.8153278474399" y="1300.0" />
+      <point x="85.125" y="26.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientController" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController">
+      <point x="26.0" y="-37.5" />
+      <point x="566.0625" y="1340.0" />
+      <point x="545.7697100313476" y="1340.0" />
+      <point x="545.7697100313476" y="1198.0" />
+      <point x="655.0629049111807" y="1198.0" />
+      <point x="-83.59999999999991" y="279.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.AccountType">
+      <point x="-156.75" y="-290.5" />
+      <point x="1408.8115660919534" y="1320.0" />
+      <point x="1121.6611611807732" y="1320.0" />
+      <point x="1121.6611611807732" y="490.0" />
+      <point x="929.6030433646811" y="490.0" />
+      <point x="62.083333333333485" y="59.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientDoctorController" target="uk.ac.ljmu.group9.PatientRecordSystem.Treatment">
+      <point x="69.59999999999991" y="-15.0" />
+      <point x="980.8111611807731" y="1198.0" />
+      <point x="991.1629049111806" y="1198.0" />
+      <point x="991.1629049111806" y="560.0" />
+      <point x="1415.2295715778473" y="560.0" />
+      <point x="-74.59999999999991" y="70.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.TreatmentType">
+      <point x="-83.59999999999991" y="-279.0" />
+      <point x="655.0629049111807" y="500.0" />
+      <point x="591.5960227272728" y="500.0" />
+      <point x="591.5960227272728" y="235.0" />
+      <point x="1426.4458333333334" y="235.0" />
+      <point x="-55.875" y="92.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientController" target="uk.ac.ljmu.group9.PatientRecordSystem.Ailment">
+      <point x="-78.0" y="-37.5" />
+      <point x="462.0625" y="1330.0" />
+      <point x="409.1835227272728" y="1330.0" />
+      <point x="409.1835227272728" y="205.0" />
+      <point x="1044.9708333333335" y="205.0" />
+      <point x="-59.60000000000002" y="81.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientController" target="uk.ac.ljmu.group9.PatientRecordSystem.UI.UserInterface">
+      <point x="104.0" y="37.5" />
+      <point x="644.0625" y="1961.0" />
+      <point x="560.07520245559" y="1961.0" />
+      <point x="21.363636363636488" y="-60.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController">
+      <point x="-191.58333333333348" y="-290.5" />
+      <point x="1373.97823275862" y="1330.0" />
+      <point x="1099.6611611807732" y="1330.0" />
+      <point x="1099.6611611807732" y="1158.0" />
+      <point x="905.8629049111806" y="1158.0" />
+      <point x="167.20000000000005" y="279.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Database" target="uk.ac.ljmu.group9.PatientRecordSystem.Visit">
+      <point x="-55.125" y="-26.0" />
+      <point x="1767.6865660919534" y="1198.0" />
+      <point x="1573.6170715778471" y="1198.0" />
+      <point x="1573.6170715778471" y="540.0" />
+      <point x="1200.928043364681" y="540.0" />
+      <point x="90.79999999999995" y="48.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.UserInterface" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController">
+      <point x="-106.81818181818198" y="-60.0" />
+      <point x="431.8933842737715" y="2001.0" />
+      <point x="0.0" y="2001.0" />
+      <point x="0.0" y="1188.0" />
+      <point x="571.4629049111805" y="1188.0" />
+      <point x="-167.20000000000005" y="279.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientController" target="uk.ac.ljmu.group9.PatientRecordSystem.UI.IActionController">
+      <point x="-130.0" y="-37.5" />
+      <point x="410.0625" y="1340.0" />
+      <point x="286.0653278474399" y="1340.0" />
+      <point x="28.375" y="26.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.AccountType">
+      <point x="0.0" y="-279.0" />
+      <point x="738.6629049111806" y="520.0" />
+      <point x="830.2697100313476" y="520.0" />
+      <point x="-37.25" y="59.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientController" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.AccountType">
+      <point x="-26.0" y="-37.5" />
+      <point x="514.0625" y="1320.0" />
+      <point x="460.2629049111805" y="1320.0" />
+      <point x="460.2629049111805" y="510.0" />
+      <point x="805.4363766980141" y="510.0" />
+      <point x="-62.083333333333485" y="59.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.UserInterface" target="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientController">
+      <point x="0.0" y="-60.0" />
+      <point x="538.7115660919535" y="2001.0" />
+      <point x="540.0625" y="2001.0" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientDoctorController" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.IStorageController">
+      <point x="-69.59999999999991" y="-15.0" />
+      <point x="841.6111611807733" y="1198.0" />
+      <point x="822.2629049111805" y="1198.0" />
+      <point x="83.59999999999991" y="279.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.DoctorController" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.AccountType">
+      <point x="124.40000000000009" y="-37.5" />
+      <point x="1023.6625000000001" y="1340.0" />
+      <point x="1110.6611611807732" y="1340.0" />
+      <point x="1110.6611611807732" y="500.0" />
+      <point x="904.7697100313476" y="500.0" />
+      <point x="37.25" y="59.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientDoctorController" target="uk.ac.ljmu.group9.PatientRecordSystem.UI.UserInterface">
+      <point x="0.0" y="15.0" />
+      <point x="911.2111611807732" y="1330.0" />
+      <point x="733.2625" y="1330.0" />
+      <point x="733.2625" y="1971.0" />
+      <point x="581.438838819226" y="1971.0" />
+      <point x="42.72727272727252" y="-60.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Database" target="uk.ac.ljmu.group9.PatientRecordSystem.Treatment">
+      <point x="-39.375" y="-26.0" />
+      <point x="1783.4365660919534" y="1188.0" />
+      <point x="1584.6170715778471" y="1188.0" />
+      <point x="1584.6170715778471" y="560.0" />
+      <point x="1639.029571577847" y="560.0" />
+      <point x="149.20000000000005" y="70.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.User">
+      <point x="156.75" y="-290.5" />
+      <point x="1722.3115660919534" y="1330.0" />
+      <point x="2321.617071577847" y="1330.0" />
+      <point x="2321.617071577847" y="540.0" />
+      <point x="2158.3083333333334" y="540.0" />
+      <point x="86.80000000000018" y="92.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.TreatmentType">
+      <point x="191.58333333333348" y="-290.5" />
+      <point x="1757.144899425287" y="1340.0" />
+      <point x="2337.841856060606" y="1340.0" />
+      <point x="2337.841856060606" y="235.0" />
+      <point x="1538.1958333333334" y="235.0" />
+      <point x="55.875" y="92.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.SecureStorageController" target="uk.ac.ljmu.group9.PatientRecordSystem.Treatment">
+      <point x="17.416666666666515" y="-290.5" />
+      <point x="1582.97823275862" y="1340.0" />
+      <point x="1558.9295715778471" y="1340.0" />
+      <point x="1558.9295715778471" y="560.0" />
+      <point x="1564.4295715778471" y="560.0" />
+      <point x="74.59999999999991" y="70.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.DoctorController" target="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientDoctorController">
+      <point x="62.19999999999982" y="-37.5" />
+      <point x="961.4624999999999" y="1340.0" />
+      <point x="980.8111611807731" y="1340.0" />
+      <point x="69.59999999999991" y="15.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.Main" target="uk.ac.ljmu.group9.PatientRecordSystem.UI.UserInterface">
+      <point x="41.75" y="-26.0" />
+      <point x="580.4615660919535" y="2166.0" />
+      <point x="597.4615660919535" y="2166.0" />
+      <point x="58.75" y="60.0" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Database" target="uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage.Patient">
+      <point x="55.125" y="-26.0" />
+      <point x="1877.9365660919534" y="1198.0" />
+      <point x="2253.117071577847" y="1198.0" />
+      <point x="58.0" y="48.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.PatientDoctorController" target="uk.ac.ljmu.group9.PatientRecordSystem.Visit">
+      <point x="34.799999999999955" y="-15.0" />
+      <point x="946.0111611807731" y="1188.0" />
+      <point x="980.1629049111806" y="1188.0" />
+      <point x="980.1629049111806" y="540.0" />
+      <point x="1064.7280433646808" y="540.0" />
+      <point x="-45.40000000000009" y="48.5" />
+    </edge>
+    <edge source="uk.ac.ljmu.group9.PatientRecordSystem.UI.Node" target="uk.ac.ljmu.group9.PatientRecordSystem.UI.IActionController">
+      <point x="76.75" y="-104.0" />
+      <point x="240.75" y="1340.0" />
+      <point x="229.3153278474399" y="1340.0" />
+      <point x="-28.375" y="26.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5" x="1526.5204799101125" y="1653.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+
