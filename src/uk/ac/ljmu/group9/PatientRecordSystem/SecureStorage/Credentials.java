@@ -43,7 +43,7 @@ public class Credentials implements Serializable
     {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            return digest.digest((str + this.salt).getBytes(StandardCharsets.UTF_8));
+            return digest.digest((str + salt).getBytes(StandardCharsets.UTF_8));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
