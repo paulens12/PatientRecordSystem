@@ -1,0 +1,7 @@
+package uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage;
+
+import java.io.Serializable;
+
+public class Database implements Serializable {
+
+}
