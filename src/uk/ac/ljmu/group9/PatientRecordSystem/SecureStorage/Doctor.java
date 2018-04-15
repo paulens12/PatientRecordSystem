@@ -1,6 +1,7 @@
 package uk.ac.ljmu.group9.PatientRecordSystem.SecureStorage;
 
 public class Doctor extends User {
+    // Working days are stored as a boolean array, where each index means a week day, from 0 as Monday to 6 as Sunday.
     private boolean[] workingDays = new boolean[7];
 
     public boolean GetWorkingDay(int day) throws IllegalArgumentException

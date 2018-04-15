@@ -9,47 +9,65 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// Implements the IStorageController interface.
 public class SecureStorageController implements IStorageController
 {
+    // Acts as the global database to be serialized.
+    private class Database implements java.io.Serializable
+    {
+        HashMap<String, Credentials> userCredentials;
+        HashMap<String, Patient> patients;
+        HashMap<String, Doctor> doctors;
+        HashMap<UUID, Treatment> treatments;
+        HashMap<UUID, Visit> visits;
+
+        Database()
+        {
+            this.userCredentials = new HashMap<>();
+            this.patients = new HashMap<>();
+            this.doctors = new HashMap<>();
+            this.treatments = new HashMap<>();
+            this.visits = new HashMap<>();
+            // The following entries are overwritten if the database file is found. They are left there as a backup
+            // in case the database file is missing or corrupt.
+            this.userCredentials.put("Patient-Patient1", new Credentials("Patient1", "Passw0rd."));
+            this.userCredentials.put("Doctor-Doctor1", new Credentials("Doctor1", "Passw0rd."));
+            this.userCredentials.put("Admin-admin", new Credentials("admin", "admin"));
+            this.patients.put("Patient1", new Patient("Patient 1", "patient 1's address goes here", "Doctor1"));
+            this.doctors.put("Doctor1", new Doctor("Doctor 1", "doctor 1's address goes here", new boolean[]{true, true, true, true, true, true, false}));
+        }
+    }
+
     private static final String fileName = "D:\\PatientRecordSystem.db";
     private Database db;
-    //private Cipher cipher;
-    //private SecretKey key;
     private static final String keyPhrase = "fdjashr234h2qihbfjdksala";
-    private FileOutputStream fileOut;
-    private FileInputStream fileIn;
+
+    // This RegEx pattern ensures that the password has:
+    // 1. At least one uppercase letter;
+    // 2. At least one lowercase letter;
+    // 3. At least one special character;
+    // 4. At least one number;
+    // 5. At least 8 characters total.
     private static final Pattern passwordPattern = Pattern.compile("^(?=.*[A-Z])(?=.*[!@#$&*%^()\\-_=+{}\\[\\];'\\\\:\"|<>?,./])(?=.*[0-9])(?=.*[a-z]).{8,}$");
-    //^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*.\-_=+\[\]{};':",<>\\|])(?=.{8,})
 
     public SecureStorageController()
     {
-        //final KeyGenerator kg = KeyGenerator.getInstance("AES");
-        //kg.init(new SecureRandom());
-        //this.key = kg.generateKey();
-        //this.key = getKey(keyPhrase);
-        //this.key = new SecretKeySpec(new byte[]{64,10,122,-105,79,-14,25,-90,-122,23,-87,-122,-72,-15,71,93}, "AES");
-        //this.cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         this.db = new Database();
     }
 
+    // Returns the encryption/decryption secret key
     private SecretKeySpec getKey()
     {
         try
         {
             byte[] keyB = SecureStorageController.keyPhrase.getBytes("UTF-8");
-            //System.out.println(keyB.length);
             MessageDigest sha = MessageDigest.getInstance("SHA-1");
             keyB = sha.digest(keyB);
-            keyB = Arrays.copyOf(keyB, 16); // use only first 128 bit
-            //System.out.println(keyB.length);
-            //System.out.println(new String(keyB, "UTF-8"));
+            keyB = Arrays.copyOf(keyB, 16); // use only the first 16 bytes
             return new SecretKeySpec(keyB, "AES");
 
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e)
@@ -59,11 +77,13 @@ public class SecureStorageController implements IStorageController
         return null;
     }
 
+    // Gets the full username as stored in the credentials database.
     private String getUserKey(AccountType accType, String username)
     {
         return accType.GetText() + "-" + username;
     }
 
+    // Loads and decrypts data from the database file.
     public void Load()
     {
         File f = new File(fileName);
@@ -82,6 +102,7 @@ public class SecureStorageController implements IStorageController
         }
     }
 
+    // Encrypts and saves data to the database file.
     public void Save()
     {
         try {
@@ -110,6 +131,7 @@ public class SecureStorageController implements IStorageController
         return matcher.matches();
     }
 
+    // Gets the IDs of all treatments associated to a given user.
     private List<UUID> getTreatmentIds(AccountType accType, String username) throws IllegalArgumentException
     {
         switch(accType)
@@ -126,6 +148,7 @@ public class SecureStorageController implements IStorageController
         return null;
     }
 
+    // Gets the IDs of all visits associated to a given user.
     private List<UUID> getVisitIds(AccountType accType, String username) throws IllegalArgumentException
     {
         switch(accType)
@@ -257,6 +280,7 @@ public class SecureStorageController implements IStorageController
         this.db.userCredentials.remove("Patient-" + username);
     }
 
+    // Gets the full information about a user.
     private User getUser(AccountType accType, String username)
     {
         switch(accType)

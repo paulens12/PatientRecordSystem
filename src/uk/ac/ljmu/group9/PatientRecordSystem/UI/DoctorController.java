@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Handles all the UI actions from the dentist menu.
 public class DoctorController extends PatientDoctorController implements IActionController
 {
     public DoctorController(IStorageController sc, Scanner scanner)
@@ -40,6 +41,7 @@ public class DoctorController extends PatientDoctorController implements IAction
         }
     }
 
+    // Allows a dentist to view their future appointments.
     protected boolean ListFutureAppointments()
     {
         System.out.println("Your upcoming appointments:");
@@ -61,6 +63,7 @@ public class DoctorController extends PatientDoctorController implements IAction
         return true;
     }
 
+    // Allows a dentist to add a treatment for a patient.
     private boolean AddTreatment()
     {
         System.out.println("Please select the treatment:");

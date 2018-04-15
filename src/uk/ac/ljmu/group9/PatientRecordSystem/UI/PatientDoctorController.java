@@ -8,6 +8,7 @@ import uk.ac.ljmu.group9.PatientRecordSystem.Visit;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Handles some UI actions that are common between the dentist and patient menus.
 public abstract class PatientDoctorController
 {
     AccountType accountType;
@@ -15,6 +16,7 @@ public abstract class PatientDoctorController
     Scanner scanner;
     String username;
 
+    // Allows the user to change their personal details.
     boolean ChangeDetails()
     {
         String currentName = this.sc.GetUserRealName(this.accountType, this.username);
@@ -38,6 +40,7 @@ public abstract class PatientDoctorController
         }
     }
 
+    // Handles the log in procedure.
     boolean Login()
     {
         System.out.println("Please enter your username:");
@@ -53,7 +56,7 @@ public abstract class PatientDoctorController
         return false;
     }
 
-
+    // Allows the user to view past treatments associated with them.
     protected boolean ListTreatments()
     {
 
@@ -86,6 +89,7 @@ public abstract class PatientDoctorController
         return true;
     }
 
+    // Allows the user to view past visits associated with them.
     protected boolean ListVisits()
     {
         System.out.println("Past visits:");

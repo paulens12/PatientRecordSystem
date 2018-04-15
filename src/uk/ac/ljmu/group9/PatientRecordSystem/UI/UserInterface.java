@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+// Shows an interactive text-based menu to the application user.
 public class UserInterface
 {
     public static DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -20,9 +21,9 @@ public class UserInterface
         this.storageController = new SecureStorageController();
         this.storageController.Load();
         this.rootNode = initializeMenuStructure();
-        //this.storageController = new SecureStorageController();
     }
 
+    // Creates the menu structure.
     private Node initializeMenuStructure() {
         PatientController pc = new PatientController(this.storageController, scanner);
         DoctorController dc = new DoctorController(storageController, scanner);
@@ -46,7 +47,7 @@ public class UserInterface
         Node doctorMenu = new Node("Dentist menu", Arrays.asList(viewFutureAppointments, viewPastAppointments, addTreatment, viewPastTreatments, changeDetails1));
         Node doctorLogin = new Node("Dentist login", dc, "Login", doctorMenu);
 
-        //admin functionality
+        // admin functionality
         Node listDoctorAppointments = new Node("List a dentist's past appointments", ac, "ListDoctorAppointments");
         Node listDoctorFutureAppointments = new Node("List a dentist's upcoming appointments", ac, "ListDoctorFutureAppointments");
         Node listPatientVisits = new Node("List a patient's past visits", ac, "ListPatientVisits");
@@ -60,7 +61,6 @@ public class UserInterface
         Node setWorkingDays = new Node("Set a dentist's working days", ac, "SetWorkingDays");
         Node adminMenu = new Node("Admin menu", Arrays.asList(listDoctorAppointments, listDoctorFutureAppointments, listPatientVisits, listDoctorTreatments, listPatientTreatments, addDoctor, addPatient, remDoctor, remPatient, setDoctor, setWorkingDays));
         Node adminLogin = new Node("Admin login", ac, "Login", adminMenu);
-        //Node listTreatments = new Node("", null, null);
 
         return new Node("Patient Record System", Arrays.asList(patientLogin, doctorLogin, adminLogin));
     }
@@ -97,6 +97,7 @@ public class UserInterface
         this.storageController.Save();
     }
 
+    // Safely gets an integer from a Scanner object.
     public static int GetInt(Scanner s)
     {
         try
@@ -111,6 +112,7 @@ public class UserInterface
         }
     }
 
+    // Displays a branch Node's menu.
     private Node DisplayMenu(Node current)
     {
         System.out.println("\n" + current.Name + "\n");

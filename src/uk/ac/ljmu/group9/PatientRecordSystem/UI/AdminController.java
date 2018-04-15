@@ -7,6 +7,7 @@ import uk.ac.ljmu.group9.PatientRecordSystem.Treatment;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Handles all the UI actions from the practice administrator menu.
 public class AdminController implements IActionController
 {
     private IStorageController sc;
@@ -51,6 +52,7 @@ public class AdminController implements IActionController
         }
     }
 
+    // Allows the practice administrator to view a dentist's future appointments.
     private boolean ListDoctorFutureAppointments()
     {
         System.out.println("Enter the dentist's username:");
@@ -61,6 +63,7 @@ public class AdminController implements IActionController
         return dc.ListFutureAppointments();
     }
 
+    // Handles the log in procedure for the practice administrator.
     private boolean Login()
     {
         System.out.println("Please enter your username:");
@@ -73,6 +76,7 @@ public class AdminController implements IActionController
         return false;
     }
 
+    // Allows the practice administrator to adjust a dentist's working days.
     private boolean SetWorkingDays()
     {
         //TODO: nice idiot-proof description.
@@ -95,6 +99,7 @@ public class AdminController implements IActionController
         return true;
     }
 
+    // Allows the practice administrator to set the first choice dentist of a patient.
     private boolean SetDoctor()
     {
         System.out.println("Enter the patient's username:");
@@ -114,6 +119,7 @@ public class AdminController implements IActionController
         return true;
     }
 
+    // Allows the practice administrator to remove a patient from the system.
     private boolean RemovePatient()
     {
         System.out.println("Enter the patient's username:");
@@ -131,6 +137,7 @@ public class AdminController implements IActionController
         return true;
     }
 
+    // Allows the practice administrator to remove a dentist from the system.
     private boolean RemoveDoctor()
     {
         System.out.println("Enter the dentist's username:");
@@ -148,6 +155,7 @@ public class AdminController implements IActionController
         return true;
     }
 
+    // Allows the practice administrator to add a patient to the system.
     private boolean AddPatient()
     {
         String name, address, username, password, doctor;
@@ -179,6 +187,7 @@ public class AdminController implements IActionController
         return true;
     }
 
+    // Allows the practice administrator to add a dentist to the system.
     private boolean AddDoctor()
     {
         String name, address, username, password;
@@ -205,6 +214,7 @@ public class AdminController implements IActionController
         return true;
     }
 
+    // Prompts the practice administrator to enter working days.
     private boolean[] getWorkingDays()
     {
         boolean[] days = new boolean[7];
@@ -231,6 +241,7 @@ public class AdminController implements IActionController
         return days;
     }
 
+    // Prompts the practice administrator to enter a password and checks its strength.
     private String getPassword()
     {
         System.out.println("Enter a password:");
@@ -250,6 +261,7 @@ public class AdminController implements IActionController
         return password;
     }
 
+    // Allows the practice administrator to view a patient's treatment history.
     private boolean ListPatientTreatments()
     {
         System.out.println("Enter the patient's username:");
@@ -266,6 +278,7 @@ public class AdminController implements IActionController
         return pc.ListTreatments();
     }
 
+    // Allows the practice administrator to view a dentist's treatment history.
     private boolean ListDoctorTreatments()
     {
         System.out.println("Enter the dentist's username:");
@@ -293,6 +306,7 @@ public class AdminController implements IActionController
         return true;
     }
 
+    // Allows the practice administrator to view a patient's past visits.
     private boolean ListPatientVisits()
     {
         System.out.println("Enter the patient's username:");
@@ -303,6 +317,7 @@ public class AdminController implements IActionController
         return pc.ListVisits();
     }
 
+    // Allows the practice administrator to view a dentist's past visits.
     private boolean ListDoctorAppointments()
     {
         System.out.println("Enter the dentist's username:");

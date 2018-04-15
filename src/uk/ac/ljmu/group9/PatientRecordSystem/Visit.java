@@ -3,6 +3,7 @@ package uk.ac.ljmu.group9.PatientRecordSystem;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+// Stores information about a visit.
 public class Visit implements Serializable
 {
     public LocalDateTime Date;

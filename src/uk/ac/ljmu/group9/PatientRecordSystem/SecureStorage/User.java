@@ -37,14 +37,4 @@ public abstract class User implements Serializable {
     {
         this.visits.add(v);
     }
-
-    public String GetName()
-    {
-        return this.name;
-    }
-
-    public String GetAddress()
-    {
-        return this.address;
-    }
 }

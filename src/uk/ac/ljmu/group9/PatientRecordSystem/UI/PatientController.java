@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
+// Handles all the UI actions from the patient menu.
 public class PatientController extends PatientDoctorController implements IActionController
 {
     public PatientController(IStorageController sc, Scanner scanner)
@@ -40,6 +41,7 @@ public class PatientController extends PatientDoctorController implements IActio
         }
     }
 
+    // Allows the patient to set their privacy setting.
     private boolean SetPrivacy()
     {
         String enabled = "The practice administrator can see my treatments";
@@ -50,6 +52,7 @@ public class PatientController extends PatientDoctorController implements IActio
         return true;
     }
 
+    // Allows the patient to request an appointment with their first choice dentist.
     private boolean RequestAppointment()
     {
         System.out.println("Available ailment types:");
